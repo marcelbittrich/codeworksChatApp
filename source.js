@@ -124,21 +124,23 @@ function messageSend(message) {
   createWritingIndicator();
 
   // choose greeting message if person greets
-  // source: https://stackoverflow.com/questions/16312528/check-if-an-array-contains-any-element-of-another-array-in-javascript
+  // source for .some(): https://stackoverflow.com/questions/16312528/check-if-an-array-contains-any-element-of-another-array-in-javascript
   let isGreeting = greetingMessages.some((greeting) => {
     return message.includes(greeting);
   });
-  console.log(isGreeting);
   // computer will respond after a delay, so it looks more realistic
-  // source: https://www.sitepoint.com/delay-sleep-pause-wait/
+  // source for setTimeout(): https://www.sitepoint.com/delay-sleep-pause-wait/
   setTimeout(() => {
     computerResponse(isGreeting);
   }, 3000);
 }
 
 function sendAndClearMessage($textArea) {
-  console.log("SendMessage");
-  if ($textArea.val()) {
+  // .match will check with RegExp if there are any Charackters
+  // \w - matches any alphanumeric character from Latin alphabet,
+  // including underscore.
+  // source: https://www.codecademy.com/resources/docs/javascript/regexp?page_ref=catalog
+  if ($textArea.val() && $textArea.val().match(/\w/)) {
     messageSend($textArea.val());
     // clear textarea
     $textArea.val("");
@@ -147,12 +149,11 @@ function sendAndClearMessage($textArea) {
 
 // send message when clicked on "Send"
 $("#message-button").on("click", () => {
-  console.log("Click");
   sendAndClearMessage($("#message"));
 });
 
 // send message with enter key (event value 13)
-// source: https://stackoverflow.com/questions/8934088/how-to-make-enter-key-in-a-textarea-submit-a-form
+// source for events: https://stackoverflow.com/questions/8934088/how-to-make-enter-key-in-a-textarea-submit-a-form
 $("#message").keypress(function (e) {
   if (e.which === 13 && !e.shiftKey) {
     // we prevent the default enter press
@@ -165,7 +166,7 @@ $("#message").keypress(function (e) {
 });
 
 // set scroll to the last element on the screen
-// source: https://stackoverflow.com/questions/40903462/how-to-keep-a-scrollbar-always-bottom
+// source for DOM api: https://stackoverflow.com/questions/40903462/how-to-keep-a-scrollbar-always-bottom
 function setChatScreenScroll() {
   const chatScreen = document.getElementById("chat-screen");
   // height will be bigger than scrollTop max value

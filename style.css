@@ -1,6 +1,12 @@
 /* Alphabetical Order */
 
+/* Just fonts */
+
 * {
+  font-family: "Sriracha", cursive;
+}
+
+.brush-font {
   font-family: "Brush Script MT";
 }
 
@@ -29,10 +35,10 @@ h1 {
 }
 
 textarea {
-  padding: 4px 8px 4px 8px;
+  padding: 8px 8px 8px 8px;
   width: 97%;
-  font-size: 26px;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 500;
   resize: none;
 }
 
@@ -69,7 +75,8 @@ textarea {
 }
 
 .chat-message .text {
-  font-size: 26px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .computer-message {
