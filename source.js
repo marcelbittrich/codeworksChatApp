@@ -65,6 +65,7 @@ function createWritingIndicator() {
 
   $newChatElement.append($wrapper);
   $("#chat-screen").append($newChatElement);
+  setChatScreenScroll();
 }
 
 function removeWritingIndicator() {
@@ -91,13 +92,21 @@ function createChatElement(chatMessage) {
     .appendTo($newChatElement);
 
   $("#chat-screen").append($newChatElement);
+  setChatScreenScroll();
 }
 
-function computerResponse() {
-  const randomMessageSelector = Math.floor(
-    Math.random() * randomMessages.length
-  );
-  const randomMessage = randomMessages[randomMessageSelector];
+function computerResponse(isGreeting = false) {
+  let randomMessage = "";
+  if (!isGreeting) {
+    const messageSelector = Math.floor(Math.random() * randomMessages.length);
+    randomMessage = randomMessages[messageSelector];
+  } else {
+    const greetingSelector = Math.floor(
+      Math.random() * greetingMessages.length
+    );
+    randomMessage = greetingMessages[greetingSelector];
+  }
+
   const computerMessage = new ChatMessage("Computer", randomMessage);
 
   createChatElement(computerMessage);
@@ -105,21 +114,61 @@ function computerResponse() {
 }
 
 function messageSend(message) {
-  const personChatMessage = new ChatMessage("Person", message);
-
   // writing indicator should always be last,
   // so we remove it first if there is one.
   removeWritingIndicator();
   // then add the message
+  const personChatMessage = new ChatMessage("Person", message);
   createChatElement(personChatMessage);
   // and add the indicator again
   createWritingIndicator();
 
+  // choose greeting message if person greets
+  // source: https://stackoverflow.com/questions/16312528/check-if-an-array-contains-any-element-of-another-array-in-javascript
+  let isGreeting = greetingMessages.some((greeting) => {
+    return message.includes(greeting);
+  });
+  console.log(isGreeting);
   // computer will respond after a delay, so it looks more realistic
-  // source for how to work with Timeout: https://www.sitepoint.com/delay-sleep-pause-wait/
+  // source: https://www.sitepoint.com/delay-sleep-pause-wait/
   setTimeout(() => {
-    computerResponse();
+    computerResponse(isGreeting);
   }, 3000);
 }
 
-messageSend("hello");
+function sendAndClearMessage($textArea) {
+  console.log("SendMessage");
+  if ($textArea.val()) {
+    messageSend($textArea.val());
+    // clear textarea
+    $textArea.val("");
+  }
+}
+
+// send message when clicked on "Send"
+$("#message-button").on("click", () => {
+  console.log("Click");
+  sendAndClearMessage($("#message"));
+});
+
+// send message with enter key (event value 13)
+// source: https://stackoverflow.com/questions/8934088/how-to-make-enter-key-in-a-textarea-submit-a-form
+$("#message").keypress(function (e) {
+  if (e.which === 13 && !e.shiftKey) {
+    // we prevent the default enter press
+    // there would still be a line brake after we send the message
+    // which would result in the following message not being "empty"
+    // besides no real content
+    e.preventDefault();
+    sendAndClearMessage($("#message"));
+  }
+});
+
+// set scroll to the last element on the screen
+// source: https://stackoverflow.com/questions/40903462/how-to-keep-a-scrollbar-always-bottom
+function setChatScreenScroll() {
+  const chatScreen = document.getElementById("chat-screen");
+  // height will be bigger than scrollTop max value
+  // but it is clamped to max value
+  chatScreen.scrollTop = chatScreen.scrollHeight;
+}
