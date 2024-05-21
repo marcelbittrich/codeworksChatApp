@@ -117,15 +117,10 @@ textarea {
   border: solid orange 2px;
 }
 
-.writing-animation-wrapper {
-  padding: 0;
-}
-
 .writing-animation-dot {
   display: inline-block;
   height: 8px;
   width: 8px;
-  margin-right: 4px;
   border-radius: 50%;
   background-color: #2d2d2d;
   animation-duration: 0.75s;
@@ -133,6 +128,10 @@ textarea {
   animation-timing-function: ease-in-out;
   animation-name: shrink;
   animation-iteration-count: infinite;
+}
+
+.writing-animation-dot + .writing-animation-dot {
+  margin-left: 4px;
 }
 
 /* IDs */

@@ -1,3 +1,5 @@
+// Globals
+
 const greetingMessages = ["Hi", "Hello", "Moin", "Hey"];
 const randomMessages = [
   "Wow, really?",
@@ -10,6 +12,9 @@ const randomMessages = [
   "I dont understand",
   "It is a really lovely day to go outside. But I am trapped in this computer and can't get out, so would you go for me?",
 ];
+let messagesToRespondTo = 0; // remaining answers count
+
+// Classes
 
 class ChatMessage {
   constructor(author, text) {
@@ -31,6 +36,8 @@ class ChatMessage {
   }
 }
 
+// Functions
+
 function getDateAndTimeString(utcDate) {
   const day = utcDate.getDate();
   const month = (utcDate.getMonth() + 1).toString().padStart(2, "0"); // January = 0
@@ -48,28 +55,21 @@ function createWritingIndicator() {
     .attr("id", "writing-indicator")
     .addClass("chat-message  computer-message");
 
-  let $wrapper = $("<div>").addClass("writing-animation-wrapper");
-
   let $leftDot = $("<div>")
     .attr("id", "left-dot")
     .addClass("writing-animation-dot")
-    .appendTo($wrapper);
+    .appendTo($newChatElement);
   let $middleDot = $("<div>")
     .attr("id", "middle-dot")
     .addClass("writing-animation-dot")
-    .appendTo($wrapper);
+    .appendTo($newChatElement);
   let $righttDot = $("<div>")
     .attr("id", "right-dot")
     .addClass("writing-animation-dot")
-    .appendTo($wrapper);
+    .appendTo($newChatElement);
 
-  $newChatElement.append($wrapper);
   $("#chat-screen").append($newChatElement);
   setChatScreenScroll();
-}
-
-function removeWritingIndicator() {
-  $("#writing-indicator").remove();
 }
 
 function createChatElement(chatMessage) {
@@ -91,7 +91,14 @@ function createChatElement(chatMessage) {
     .text(chatMessage.text)
     .appendTo($newChatElement);
 
+  // writing indicator should always be last,
+  // so we detach it first if there is one.
+  let $indicator = $("#writing-indicator").detach();
+  // then add the message
   $("#chat-screen").append($newChatElement);
+  // and add the indicator again
+  $("#chat-screen").append($indicator);
+
   setChatScreenScroll();
 }
 
@@ -106,28 +113,28 @@ function computerResponse(isGreeting = false) {
     );
     randomMessage = greetingMessages[greetingSelector];
   }
+  createChatElement(new ChatMessage("Computer", randomMessage));
 
-  const computerMessage = new ChatMessage("Computer", randomMessage);
-
-  createChatElement(computerMessage);
-  removeWritingIndicator();
+  messagesToRespondTo--;
+  if (messagesToRespondTo === 0) {
+    $("#writing-indicator").remove();
+  }
 }
 
 function messageSend(message) {
-  // writing indicator should always be last,
-  // so we remove it first if there is one.
-  removeWritingIndicator();
-  // then add the message
-  const personChatMessage = new ChatMessage("Person", message);
-  createChatElement(personChatMessage);
-  // and add the indicator again
-  createWritingIndicator();
+  createChatElement(new ChatMessage("Person", message));
 
   // choose greeting message if person greets
   // source for .some(): https://stackoverflow.com/questions/16312528/check-if-an-array-contains-any-element-of-another-array-in-javascript
   let isGreeting = greetingMessages.some((greeting) => {
     return message.includes(greeting);
   });
+
+  if (messagesToRespondTo === 0) {
+    createWritingIndicator();
+  }
+  messagesToRespondTo++;
+
   // computer will respond after a delay, so it looks more realistic
   // source for setTimeout(): https://www.sitepoint.com/delay-sleep-pause-wait/
   setTimeout(() => {
@@ -150,16 +157,17 @@ function sendAndClearMessage($textArea) {
 // send message when clicked on "Send"
 $("#message-button").on("click", () => {
   sendAndClearMessage($("#message"));
+  // reset focus on input so it is easier to type again
+  $("#message").focus();
 });
 
 // send message with enter key (event value 13)
 // source for events: https://stackoverflow.com/questions/8934088/how-to-make-enter-key-in-a-textarea-submit-a-form
 $("#message").keypress(function (e) {
   if (e.which === 13 && !e.shiftKey) {
-    // we prevent the default enter press
-    // there would still be a line brake after we send the message
-    // which would result in the following message not being "empty"
-    // besides no real content
+    // we prevent the default enter press, because
+    // otherwise there would still be a line brake
+    // in the textarea after we send the message
     e.preventDefault();
     sendAndClearMessage($("#message"));
   }
