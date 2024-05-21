@@ -1,0 +1,161 @@
+/* Alphabetical Order */
+
+* {
+  font-family: "Brush Script MT";
+}
+
+/* Types */
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-color: lightblue; /* fallback for older browsers that don't support gradients */
+  background-image: linear-gradient(45deg, lightgreen, lightblue);
+  overflow: hidden;
+}
+
+header {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin: 0;
+  padding: 20px 20px 10px 20px;
+  color: hsl(0, 0%, 90%);
+  font-size: 42pt;
+  text-align: center;
+}
+
+textarea {
+  padding: 4px 8px 4px 8px;
+  width: 97%;
+  font-size: 26px;
+  font-weight: 400;
+  resize: none;
+}
+
+/* Classes */
+
+.chat-app {
+  margin: 0 auto;
+  margin-top: 5vh;
+  padding: 0px;
+  max-width: 600px;
+  background-color: rgb(0.8, 0.8, 0.8, 0.3);
+  border-radius: 20px;
+  /*source: https://getcssscan.com/css-box-shadow-examples*/
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.chat-messages {
+  padding: 10px;
+  height: 50vh;
+  background-color: rgba(255, 255, 255, 0.2);
+  overflow-y: scroll;
+}
+
+.chat-message {
+  padding: 10px;
+  margin-bottom: 4px;
+  width: fit-content;
+  max-width: 80%;
+  color: #2d2d2d;
+  border-radius: 16px;
+  background-color: lightgray;
+}
+
+.chat-message .timeAndDate {
+  margin-bottom: 2px;
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.chat-message .text {
+  font-size: 26px;
+}
+
+.computer-message {
+  background-color: lightgreen;
+}
+
+.divider {
+  background-color: hsl(0, 0%, 90%);
+  height: 2px;
+}
+
+.personal-message {
+  margin-left: auto;
+  background-color: lightblue;
+}
+
+.text-input {
+  padding: 10px;
+  height: fit-content;
+}
+
+.send-message {
+  margin: 2px;
+  padding: 6px;
+  color: hsl(0, 0%, 90%);
+  font-size: 20pt;
+  font-weight: bold;
+  background-color: #2d2d2d;
+  border-radius: 0px 0px 10px 10px;
+  /*source: https://stackoverflow.com/questions/5703552/how-can-i-center-text-horizontally-and-vertically-inside-a-div-block */
+  text-align: center;
+  vertical-align: middle;
+  line-height: 18px;
+}
+
+.send-message:hover {
+  margin: 0px;
+  border: solid orange 2px;
+}
+
+.writing-animation-wrapper {
+  padding: 0;
+}
+
+.writing-animation-dot {
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background-color: #2d2d2d;
+  animation-duration: 0.75s;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+  animation-name: shrink;
+  animation-iteration-count: infinite;
+}
+
+/* IDs */
+
+#left-dot {
+  animation-delay: 0s;
+}
+
+#middle-dot {
+  animation-delay: 0.25s;
+}
+
+#right-dot {
+  animation-delay: 0.5s;
+}
+
+/* Animations */
+
+@keyframes shrink {
+  0% {
+    scale: 1;
+  }
+  100% {
+    scale: 0.5;
+  }
+}
