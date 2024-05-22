@@ -167,7 +167,7 @@ $("#message").keypress(function (e) {
   if (e.which === 13 && !e.shiftKey) {
     // we prevent the default enter press, because
     // otherwise there would still be a line brake
-    // in the textarea after we send the message
+    // in the textarea after we send the message.
     e.preventDefault();
     sendAndClearMessage($("#message"));
   }
@@ -177,7 +177,7 @@ $("#message").keypress(function (e) {
 // source for DOM api: https://stackoverflow.com/questions/40903462/how-to-keep-a-scrollbar-always-bottom
 function setChatScreenScroll() {
   const chatScreen = document.getElementById("chat-screen");
-  // height will be bigger than scrollTop max value
-  // but it is clamped to max value
+  // scrollHeight will be bigger than scrollTop max value
+  // but it is clamped to max value.
   chatScreen.scrollTop = chatScreen.scrollHeight;
 }
