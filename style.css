@@ -6,8 +6,8 @@
   font-family: "Sriracha", cursive;
 }
 
-.brush-font {
-  font-family: "Brush Script MT", cursive;
+.handwriting-font {
+  font-family: "Pacifico", cursive;
 }
 
 /* Types */
@@ -30,7 +30,7 @@ h1 {
   margin: 0;
   padding: 20px 20px 10px 20px;
   color: hsl(0, 0%, 90%);
-  font-size: 42pt;
+  font-size: 30pt;
   text-align: center;
 }
 
@@ -102,7 +102,7 @@ textarea {
   margin: 2px;
   padding: 6px;
   color: hsl(0, 0%, 90%);
-  font-size: 20pt;
+  font-size: 14pt;
   font-weight: bold;
   background-color: #2d2d2d;
   border-radius: 0px 0px 10px 10px;
